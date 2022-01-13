@@ -1,0 +1,28 @@
+In your shell or terminal, use the Maven Archetype Plugin to create a Maven project on your computer that contains the Apache Beam SDK's WordCount examples
+mvn archetype:generate \
+    -DarchetypeGroupId=org.apache.beam \
+    -DarchetypeArtifactId=beam-sdks-java-maven-archetypes-examples \
+    -DarchetypeVersion=2.35.0 \
+    -DgroupId=org.example \
+    -DartifactId=word-count-beam \
+    -Dversion="0.1" \
+    -Dpackage=org.apache.beam.examples \
+    -DinteractiveMode=false
+
+cd word-count-beam/
+ls
+
+ls src/main/java/org/apache/beam/examples/
+
+In your shell or terminal, run the WordCount pipeline locally from your word-count-beam directory:
+mvn compile exec:java \
+    -Dexec.mainClass=org.apache.beam.examples.WordCount \
+    -Dexec.args="--output=counts"
+In your shell or terminal, build and run the WordCount pipeline on the Dataflow service from your word-count-beam directory:
+mvn -Pdataflow-runner compile exec:java \
+    -Dexec.mainClass=org.apache.beam.examples.WordCount \
+    -Dexec.args="--project=smdata2022 \
+    --gcpTempLocation=gs://quickstart-dataflow-smdata2022/temp/ \
+    --output=gs://quickstart-dataflow-smdata2022/output \
+    --runner=DataflowRunner \
+    --region=us-central1"
